@@ -53,33 +53,47 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            overflow: hidden;
-            position: relative;
+            flex-wrap: wrap;
         }
         .gallery img {
             width: 100%;
             height: auto;
-            max-width: 600px;
+            max-width: 150px;
             margin: 10px;
             border-radius: 10px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
-        .gallery .left, .gallery .right {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background-color: rgba(0, 0, 0, 0.5);
-            color: white;
-            border: none;
-            padding: 10px;
             cursor: pointer;
+        }
+        .lightbox {
+            display: none;
+            position: fixed;
             z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.8);
         }
-        .gallery .left {
-            left: 10px;
+        .lightbox-content {
+            position: relative;
+            margin: auto;
+            padding: 20px;
+            width: 80%;
+            max-width: 700px;
         }
-        .gallery .right {
-            right: 10px;
+        .lightbox img {
+            width: 100%;
+            height: auto;
+        }
+        .close {
+            position: absolute;
+            top: 10px;
+            right: 25px;
+            color: white;
+            font-size: 35px;
+            font-weight: bold;
+            cursor: pointer;
         }
         footer {
             background-color: rgba(42, 82, 152, 0.9);
@@ -124,14 +138,8 @@
                 margin: 10px;
             }
             .gallery img {
-                max-width: 100%;
+                max-width: 100px;
                 margin: 5px;
-            }
-            .gallery .left, .gallery .right {
-                top: 10px;
-                bottom: 10px;
-                transform: none;
-                padding: 5px;
             }
         }
     </style>
@@ -149,7 +157,7 @@
     </nav>
     <section id="sobre" class="section">
         <h2>Sobre Mim</h2>
-        <p>Olá, sou Max Willian Jacques, fundador da Max Vip Barbearia. Com mais de 13 anos de experiência, criei um ambiente moderno e acolhedor em Barra Velha para proporcionar bem-estar e excelência em cortes de cabelo e barba.</p>
+        <p>Olá, sou Max Willian Jacques, fundador da Max Vip Barbearia. Com mais de 14 anos de experiência, criei um ambiente moderno e acolhedor em Barra Velha para proporcionar bem-estar e excelência em cortes de cabelo e barba.</p>
         <p>Participei recentemente de um podcast, confira abaixo:</p>
         <p><a href="https://www.youtube.com/watch?v=2WHMVUUMdpM" target="_blank" class="contact-link">Assista ao Podcast</a></p>
     </section>
@@ -164,20 +172,20 @@
             <li>Pintura de cabelo e barba</li>
         </ul>
     </section>
-    <section id="galeria" class="section gallery">
+    <section id="galeria" class="section">
         <h2>Galeria de Fotos</h2>
-        <button class="left" onclick="previousImage()">&#10094;</button>
-        <img src="IMG20230131163535.jpg" alt="Foto 1">
-        <img src="IMG20230210161417.jpg" alt="Foto 2">
-        <img src="IMG_20231007_141449.jpg" alt="Foto 3">
-        <img src="IMG20231111195132.jpg" alt="Foto 4">
-        <img src="fdb296d2-9871-4f3c-85c4-e54ff9aca279.jpg" alt="Foto 5">
-        <img src="IMG_0077.jpg" alt="Foto 6">
-        <img src="e95277f8-f36d-4bfe-a65d-79f84fe37b9d.jpg" alt="Foto 7">
-        <img src="IMG_0081.jpg" alt="Foto 8">
-        <img src="IMG_0128.jpg" alt="Foto 9">
-        <img src="IMG_0279.jpg" alt="Foto 10">
-        <button class="right" onclick="nextImage()">&#10095;</button>
+        <div class="gallery">
+            <img src="IMG20230131163535.jpg" alt="Foto 1" onclick="openLightbox(this)">
+            <img src="IMG20230210161417.jpg" alt="Foto 2" onclick="openLightbox(this)">
+            <img src="IMG_20231007_141449.jpg" alt="Foto 3" onclick="openLightbox(this)">
+            <img src="IMG20231111195132.jpg" alt="Foto 4" onclick="openLightbox(this)">
+            <img src="fdb296d2-9871-4f3c-85c4-e54ff9aca279.jpg" alt="Foto 5" onclick="openLightbox(this)">
+            <img src="IMG_0077.jpg" alt="Foto 6" onclick="openLightbox(this)">
+            <img src="e95277f8-f36d-4bfe-a65d-79f84fe37b9d.jpg" alt="Foto 7" onclick="openLightbox(this)">
+            <img src="IMG_0081.jpg" alt="Foto 8" onclick="openLightbox(this)">
+            <img src="IMG_0128.jpg" alt="Foto 9" onclick="openLightbox(this)">
+            <img src="IMG_0279.jpg" alt="Foto 10" onclick="openLightbox(this)">
+        </div>
     </section>
     <section id="testemunhos" class="section testimonials">
         <h2>Testemunhos de Clientes</h2>
@@ -200,9 +208,17 @@
     <footer>
         <p>&copy; 2024 Max Willian Jacques. Todos os direitos reservados.</p>
     </footer>
+    <div id="lightbox" class="lightbox" onclick="closeLightbox()">
+        <span class="close">&times;</span>
+        <div class="lightbox-content">
+            <img id="lightbox-img" src="" alt="">
+        </div>
+    </div>
     <script>
         let currentImageIndex = 0;
         const images = document.querySelectorAll('.gallery img');
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
 
         function showImage(index) {
             images.forEach((img, i) => {
@@ -218,6 +234,15 @@
         function previousImage() {
             currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
             showImage(currentImageIndex);
+        }
+
+        function openLightbox(img) {
+            lightbox.style.display = 'block';
+            lightboxImg.src = img.src;
+        }
+
+        function closeLightbox() {
+            lightbox.style.display = 'none';
         }
 
         // Initialize the gallery
