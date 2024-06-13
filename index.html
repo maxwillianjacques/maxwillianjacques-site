@@ -157,7 +157,7 @@
     </nav>
     <section id="sobre" class="section">
         <h2>Sobre Mim</h2>
-        <p>Olá, sou Max Willian Jacques, fundador da Max Vip Barbearia. Com mais de 14 anos de experiência, criei um ambiente moderno e acolhedor em Barra Velha para proporcionar bem-estar e excelência em cortes de cabelo e barba.</p>
+        <p>Olá, sou Max Willian Jacques, fundador da Max Vip Barbearia. Com mais de 13 anos de experiência, criei um ambiente moderno e acolhedor em Barra Velha para proporcionar bem-estar e excelência em cortes de cabelo e barba.</p>
         <p>Participei recentemente de um podcast, confira abaixo:</p>
         <p><a href="https://www.youtube.com/watch?v=2WHMVUUMdpM" target="_blank" class="contact-link">Assista ao Podcast</a></p>
     </section>
@@ -215,38 +215,17 @@
         </div>
     </div>
     <script>
-        let currentImageIndex = 0;
-        const images = document.querySelectorAll('.gallery img');
-        const lightbox = document.getElementById('lightbox');
-        const lightboxImg = document.getElementById('lightbox-img');
-
-        function showImage(index) {
-            images.forEach((img, i) => {
-                img.style.display = i === index ? 'block' : 'none';
-            });
-        }
-
-        function nextImage() {
-            currentImageIndex = (currentImageIndex + 1) % images.length;
-            showImage(currentImageIndex);
-        }
-
-        function previousImage() {
-            currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
-            showImage(currentImageIndex);
-        }
-
         function openLightbox(img) {
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImg = document.getElementById('lightbox-img');
             lightbox.style.display = 'block';
             lightboxImg.src = img.src;
         }
 
         function closeLightbox() {
+            const lightbox = document.getElementById('lightbox');
             lightbox.style.display = 'none';
         }
-
-        // Initialize the gallery
-        showImage(currentImageIndex);
     </script>
 </body>
 </html>
